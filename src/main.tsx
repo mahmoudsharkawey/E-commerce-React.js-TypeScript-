@@ -7,6 +7,8 @@ import "@styles/global.css";
 import { store, persistor } from "@store/store";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
+// axios
+import "./services/axios-global.js";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <Provider store={store}>

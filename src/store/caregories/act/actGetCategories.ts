@@ -2,7 +2,6 @@ import { TCategory } from "@customTypes/category";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-
 type TResponse = TCategory[];
 
 const actGetCategories = createAsyncThunk(
@@ -10,9 +9,7 @@ const actGetCategories = createAsyncThunk(
   async (_, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const response = await axios.get<TResponse>(
-        "http://localhost:5007/categories"
-      );
+      const response = await axios.get<TResponse>("/categories");
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {

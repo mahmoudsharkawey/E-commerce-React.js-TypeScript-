@@ -7,32 +7,42 @@ import Loading from "@components/feedback/Loading/Loading";
 import GridList from "@components/common/GridList/GridList";
 import { TProduct } from "@customTypes/product";
 import {
-  actGetProductsByCatPrefix,
-  productsCleanUp,
+    actGetProductsByCatPrefix,
+    productsCleanUp,
 } from "@store/products/productsSlice";
+import Heading from "@components/common/Heading/Heading";
 
 const Products = () => {
-  const params = useParams();
-  const dispatch = useAppDispatch();
-  const { error, loading, records } = useAppSelector((state) => state.products);
+    const params = useParams();
+    const dispatch = useAppDispatch();
+    const { error, loading, records } = useAppSelector((state) => state.products);
+    const cartItems = useAppSelector((state) => state.cart.items);
 
-  useEffect(() => {
-    dispatch(actGetProductsByCatPrefix(params.prefix as string));
-    return () => {
-      dispatch(productsCleanUp());
-    };
-  }, [dispatch, params]);
+    const productsFullInfo = records.map((el) => ({
+        ...el,
+        quantity: cartItems[el.id] || 0,
+    }));
 
-  return (
-    <Container>
-      <Loading status={loading} error={error}>
-        <GridList<TProduct>
-          records={records}
-          renderItem={(record) => <Product {...record} />}
-        />
-      </Loading>
-    </Container>
-  );
+    useEffect(() => {
+        dispatch(actGetProductsByCatPrefix(params.prefix as string));
+        return () => {
+            dispatch(productsCleanUp());
+        };
+    }, [dispatch, params]);
+
+    return (
+        <Container>
+            <Heading >
+                <span className="text-capitalize">{params.prefix}</span> Products
+            </Heading>
+            <Loading status={loading} error={error}>
+                <GridList<TProduct>
+                    records={productsFullInfo}
+                    renderItem={(record) => <Product {...record} />}
+                />
+            </Loading>
+        </Container >
+    );
 };
 
 export default Products;

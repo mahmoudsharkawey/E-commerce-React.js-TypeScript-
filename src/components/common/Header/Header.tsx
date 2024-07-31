@@ -21,8 +21,8 @@ const Header = () => {
                     <span className={spamlogo}>Eco</span>Dev
                 </h1>
                 <div className={basket}>
-                    <ShoppingCart size="30" />
-                    <h4>({totalQuantity})</h4>
+                    <ShoppingCart size="30"/>
+                    <h4>({totalQuantity}) Cart</h4>
                 </div>
             </div>
             <Navbar
